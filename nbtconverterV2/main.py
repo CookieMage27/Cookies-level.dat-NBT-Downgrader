@@ -617,7 +617,7 @@ all_enchants_list = {
     "minecraft:fortune": 35,
     "minecraft:power": 48,
     "minecraft:punch": 49,
-    
+    "minecraft:flame": 50,
 }
 
 
