@@ -522,7 +522,7 @@ all_item_list = {
     "minecraft:cake": 354,
     "minecraft:bed": 355,
     "minecraft:repeater": 356,
-    "minecraft:cookie": 356,
+    "minecraft:cookie": 357,
     "minecraft:filled_map": 358,
     "minecraft:shears": 359,
     "minecraft:melon_slice": 360,
