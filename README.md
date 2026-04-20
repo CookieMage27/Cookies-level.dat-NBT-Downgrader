@@ -5,6 +5,7 @@ currently downgrades to Minecraft Java versions :
     b1.7.3
 
 keeps-
+
     enchantments
     
     items
@@ -21,6 +22,7 @@ keeps-
     
     blocks and item variants from older versions if the versions are close enough
 does NOT keep-
+
     chunks
     
     ender chest items (maybe in the future)
@@ -30,6 +32,7 @@ does NOT keep-
     items that dont exist in older versions
 
 perfect for-
+
     going to the position of the farlands in newer versions and generating them in b1.7.3
     
     applying any enchantment to any item in 12w49a
