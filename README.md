@@ -116,4 +116,4 @@ Installing packages directly with `pip` on linux, particularly arch-based distro
 
 **open an issue on the github if theres a problem ill maybe check it eventually and try to help idk**
 
-if your doing this sort of thing i assume
+if your doing this sort of thing i assume you know how it works
