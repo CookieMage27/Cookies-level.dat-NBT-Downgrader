@@ -5,7 +5,7 @@
 12w49a
 b1.7.3
 
-keeps:
+# keeps:
 
 -enchantments
 
@@ -23,7 +23,7 @@ keeps:
 
 -blocks and item variants from older versions if the versions are close enough
 
-does NOT keep:
+# does NOT keep:
 
 -chunks
 
@@ -33,7 +33,7 @@ does NOT keep:
 
 -items that dont exist in older versions
 
-perfect for:
+# perfect for:
 
 -going to the position of the farlands in newer versions and generating them in b1.7.3
 
