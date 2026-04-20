@@ -24,6 +24,47 @@ perfect for:
     applying any enchantment to any item in 12w49a
     thats it, those were the reasons i spent a week making this
 ---
+# currently downgrades to Minecraft Java versions
+
+12w49a
+b1.7.3
+
+# keeps:
+
+-enchantments
+
+-items
+
+-armor
+
+-tools
+
+-blocks
+
+-position
+
+-rotation
+
+-blocks and item variants from older versions if the versions are close enough
+
+# does NOT keep:
+
+-chunks
+
+-ender chest items (maybe in the future)
+
+-block and item variants from newer versions (will just make them normal versions of themselves red wool into wool)
+
+-items that dont exist in older versions
+
+# perfect for:
+
+-going to the position of the farlands in newer versions and generating them in b1.7.3
+
+-applying any enchantment to any item in 12w49a
+
+-thats it, those were the reasons i spent a week making this
+
 
 ## Instructions
 
@@ -75,3 +116,4 @@ Installing packages directly with `pip` on linux, particularly arch-based distro
 
 **open an issue on the github if theres a problem ill maybe check it eventually and try to help idk**
 
+if your doing this sort of thing i assume
