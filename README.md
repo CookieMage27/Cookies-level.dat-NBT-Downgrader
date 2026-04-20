@@ -1,12 +1,12 @@
-### Cookie's level.dat NBT Downgrader
+# Cookie's level.dat NBT Downgrader
 
 ---
-# currently downgrades to Minecraft Java versions
+### currently downgrades to Minecraft Java versions
 
 12w49a
 b1.7.3
 
-# keeps:
+### keeps:
 
 -enchantments
 
@@ -24,7 +24,7 @@ b1.7.3
 
 -blocks and item variants from older versions if the versions are close enough
 
-# does NOT keep:
+### does NOT keep:
 
 -chunks
 
@@ -34,7 +34,7 @@ b1.7.3
 
 -items that dont exist in older versions
 
-# perfect for:
+### perfect for:
 
 -going to the position of the farlands in newer versions and generating them in b1.7.3
 
