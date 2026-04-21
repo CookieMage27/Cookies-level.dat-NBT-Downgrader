@@ -19,6 +19,8 @@ b1.7.3
 
 -blocks
 
+-ender chest items (now working!)
+
 -position
 
 -rotation
@@ -28,8 +30,6 @@ b1.7.3
 ### does NOT keep:
 
 -chunks
-
--ender chest items (maybe in the future)
 
 -block and item variants from newer versions (will just make them normal versions of themselves red wool into wool)
 
