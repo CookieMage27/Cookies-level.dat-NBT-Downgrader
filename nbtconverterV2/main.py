@@ -3,7 +3,11 @@ from nbtlib import *
 from nbtlib.tag import *
 from options import *
 from item_list import all_item_list
-new_level_dat = nbtlib.load("nbtconverterV2/input/level.dat")
+
+try:
+    new_level_dat = nbtlib.load("nbtconverterV2/input/level.dat")
+except:
+    new_level_dat = nbtlib.load("input/level.dat")
 
 
 
@@ -764,7 +768,11 @@ root = Compound({
 })
 
 nbt_file = File(root)
-nbt_file.save("nbtconverterV2/output/level.dat", gzipped=True)
+try:
+    nbt_file.save("nbtconverterV2/output/level.dat", gzipped=True)
+except:
+    nbt_file.save("output/level.dat", gzipped=True)
+
 
 
 
