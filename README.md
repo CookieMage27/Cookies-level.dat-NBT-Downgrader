@@ -75,7 +75,7 @@ Installing packages directly with `pip` on linux, particularly arch-based distro
 
 2. Create a python virtual environment (venv): `python3 -m venv [venvname]` (replace [venvname] with a name of your choice - just venv is perfectly fine)
 
-3. Staying in the same directory, run `[venvname]/bin/activate`. Any python or pip related commands you run now will use any libraries install in the virtual environment
+3. Staying in the same directory, run `source [venvname]/bin/activate`. Any python or pip related commands you run now will use any libraries installed in the virtual environment
 
 4. Follow the steps as above; all libraries will install into your environment
 
