@@ -237,6 +237,16 @@ except KeyError:
     playerGameType = 0
 
 try:
+    GameType = int(new_level_dat['Data']['GameType'])
+except KeyError:
+    GameType = 0
+
+try:
+    allowCommands = int(new_level_dat['Data']['allowCommands'])
+except KeyError:
+    allowCommands = 0
+
+try:
     satu = float(new_level_dat['Data']['Player']['foodSaturationLevel'])
 except KeyError:
     satu = 0
@@ -750,7 +760,7 @@ elif(option == "12w49a"):
         "raining": 0,
         "Time": time,
         "thundering": 0,
-        "GameType": playerGameType,
+        "GameType": GameType,
         "generatorVersion": 1,
         "MapFeatures": 1,
         "version": 19133,
@@ -759,7 +769,7 @@ elif(option == "12w49a"):
         "DayTime": daytime,
         "LevelName": level_name,
         "initialized": 1,
-        "allowCommands": 0,
+        "allowCommands": allowCommands,
         "SizeOnDisk": sod
     })
 
