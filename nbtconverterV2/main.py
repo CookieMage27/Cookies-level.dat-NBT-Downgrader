@@ -3,7 +3,7 @@ from nbtlib import *
 from nbtlib.tag import *
 from options import *
 from item_list import all_item_list
-new_level_dat = nbtlib.load("input/level.dat")
+new_level_dat = nbtlib.load("nbtconverterV2/input/level.dat")
 
 
 
@@ -728,7 +728,7 @@ elif(option == "12w49a"):
             "Fire": -20,
             "CanPickUpLoot": 0,
             "XpP": 0.5,
-            "EnderItems": [],
+            "EnderItems": ec_converted_items,
             "foodLevel": 20,
             "foodExhaustionLevel": foode,
             "HurtTime": 0,
@@ -764,7 +764,7 @@ root = Compound({
 })
 
 nbt_file = File(root)
-nbt_file.save("output/level.dat", gzipped=True)
+nbt_file.save("nbtconverterV2/output/level.dat", gzipped=True)
 
 
 

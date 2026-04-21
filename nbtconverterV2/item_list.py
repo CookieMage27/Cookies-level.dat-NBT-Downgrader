@@ -1,9 +1,16 @@
 all_item_list = {
     "minecraft:stone": 1, 
     "minecraft:grass": 2, 
+    "minecraft:grass_block": 2, 
     "minecraft:dirt": 3, 
     "minecraft:cobblestone": 4,
     "minecraft:planks": 5,
+    "minecraft:oak_planks": 5, #plank types for newer versions
+    "minecraft:spruce_planks": 5,
+    "minecraft:birch_planks": 5,
+    "minecraft:acacia_planks": 5,
+    "minecraft:dark_oak_planks": 5,
+    "minecraft:jungle_planks": 5,
     "minecraft:sapling": 6,
     "minecraft:bedrock": 7,
     "minecraft:sand": 12,
