@@ -19,6 +19,8 @@ b1.7.3
 
 -blocks
 
+-ender chest items (now working!)
+
 -position
 
 -rotation
@@ -28,8 +30,6 @@ b1.7.3
 ### does NOT keep:
 
 -chunks
-
--ender chest items (maybe in the future)
 
 -block and item variants from newer versions (will just make them normal versions of themselves red wool into wool)
 
@@ -75,7 +75,7 @@ Installing packages directly with `pip` on linux, particularly arch-based distro
 
 2. Create a python virtual environment (venv): `python3 -m venv [venvname]` (replace [venvname] with a name of your choice - just venv is perfectly fine)
 
-3. Staying in the same directory, run `[venvname]/bin/activate`. Any python or pip related commands you run now will use any libraries install in the virtual environment
+3. Staying in the same directory, run `source [venvname]/bin/activate`. Any python or pip related commands you run now will use any libraries installed in the virtual environment
 
 4. Follow the steps as above; all libraries will install into your environment
 
