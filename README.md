@@ -41,30 +41,41 @@ b1.7.3
 
 -applying any enchantment to any item in 12w49a
 
--thats it, those were the reasons i spent a week making this
+-thats it, those were the reasons i spent a week making this 
 
+## NOTE!!
+
+this tool is **EXTREMELY** janky, it may be prone to curly errors and is still in active development. Both us devs barely know what each others code does, so a fair warning:
+
+This tool is not guaranteed to work, ensure you backup your world before trying this, and if it doesn't work, open up a GitHub issue and we'll try our best to help.
+
+In the future, we might package this into indivdual executables, but no promises.
+
+Thanks for using our project 😎❤️.
+
+Also, this project is proudly vibecode-free, however Claude sonnet 4.6 was used for some documentation reference.
 
 ## Instructions
 
-open the main folder in vscode (or your own IDE if you can get it working)
+Open the main folder in your file manager
 
 1. Run `pip install -r requirements.txt` (the libraries for this project)
 
-2. Go to the world you want to downgrade in files
-
-3. Make a copy in case something goes... wrong
+3. Make a backup of your world in case something goes... wrong
 
 4. Delete the level.dat_old
 
-5. Move the level.dat from your world into the input folder
+5. Right click on level.dat while holding shift (option on Mac), choose "copy as path"
 
-6. Go to options.py and change the values to your specifications (cut down to only needing to specify what version you want)
+6. Open a terminal/powershell in the "nbtconverterv2" folder
 
-7. If everything is set properly, running main.py should make a new level.dat in the output folder
+7. set up a venv if needed (see below)
 
-8. Drag the outputed level.dat out into your world
+8. run `python3 tui.py [level.dat path]` (paste the path you copied in earlier)
 
-play in the version you selected, minecraft should open the world without saying anything about conversion
+9. Drag the outputed level.dat out into your world, confirm 'yes' to overwrite if asked
+
+Play in the version you selected, Minecraft should open the world without saying anything about conversion
 
 ---
 
@@ -88,7 +99,7 @@ Installing packages directly with `pip` on linux, particularly arch-based distro
 ## Troubleshooting
 - If there are errors about the "Data" key, theres probably something wrong with the installed libraries or the PATH
 
-- If theres something wrong with the item parsing, theres probably something wrong with the version you have selected (fixed)
+- If there's something wrong with the item parsing, theres probably something wrong with the version you have selected (fixed)
 
 - If there are other errors its probably a variable edge case i didnt account for or a newer version of minecraft with different formatting
 
