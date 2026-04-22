@@ -53,7 +53,7 @@ In the future, we might package this into indivdual executables, but no promises
 
 Thanks for using our project 😎❤️.
 
-Also, this project is proudly vibecode-free, however Claude sonnet 4.6 was used for some documentation reference.
+Also, this project is proudly vibecode-free
 
 ## Instructions
 
