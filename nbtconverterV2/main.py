@@ -5,29 +5,42 @@ from item_list import all_item_list
 import argparse
 import pathlib
 import platform
+from options import *
 
 
 #brings in args from being executed by tui.py
-argParser = argparse.ArgumentParser(description="Brings arguments from tui.py")
-argParser.add_argument("leveldatPath", type = str)
-argParser.add_argument("--versionChoice", type = str)
-parsedArgs = argParser.parse_args()
+try:
+    argParser = argparse.ArgumentParser(description="Brings arguments from tui.py")
+    argParser.add_argument("leveldatPath", type = str)
+    argParser.add_argument("--versionChoice", type = str)
+    parsedArgs = argParser.parse_args()
+except:
+    pass
+try:
+    leveldatPath = parsedArgs.leveldatPath
+    
+except:
+    leveldatPath = "input/level.dat"
 
-leveldatPath = parsedArgs.leveldatPath
-versionChoice = parsedArgs.versionChoice
-
+try:
+    versionChoice = parsedArgs.versionChoice
+except:
+    versionChoice = version
 
 
 try:
     new_level_dat = nbtlib.load(leveldatPath)
 except:
-    print("unable to load file. check the path and that it's a real level.dat file")
-    exit()
+    try:
+        new_level_dat = nbtlib.load("nbtconverterV2/input/level.dat")
+    except:
+        print("unable to load file. check the path and that it's a real level.dat file")
+        exit()
 
 
 
 
-if versionChoice == "1":
+if int(versionChoice) == 1:
     option = "12w49a"
 else:
     option = "Beta 1.7.3"
@@ -791,10 +804,10 @@ if not outputFolder.exists():
 
 # tries to save to the output folder, prints a help message if unsuccessfull
 try:
-    nbt_file.save("output/level.dat", gzipped=True)
+    nbt_file.save("nbtconverterV2/output/level.dat", gzipped=True)
     print("Saved in output!")
 except FileNotFoundError:
-    nbt_file.save("nbtconverterV2/output/level.dat", gzipped=True)
+    nbt_file.save("output/level.dat", gzipped=True)
 except Exception:
     print("Error saving file.... check output folder permissions and try again\n")
     if platform.system() == "Linux" or platform.system() == "Darwin":
