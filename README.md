@@ -58,7 +58,7 @@ open the main folder in vscode (or your own IDE if you can get it working)
 
 5. Move the level.dat from your world into the input folder
 
-6. Go to options.py and change the values to your specifications
+6. Go to options.py and change the values to your specifications (cut down to only needing to specify what version you want)
 
 7. If everything is set properly, running main.py should make a new level.dat in the output folder
 
@@ -88,7 +88,7 @@ Installing packages directly with `pip` on linux, particularly arch-based distro
 ## Troubleshooting
 - If there are errors about the "Data" key, theres probably something wrong with the installed libraries or the PATH
 
-- If theres something wrong with the item parsing, theres probably something wrong with the version you have selected
+- If theres something wrong with the item parsing, theres probably something wrong with the version you have selected (fixed)
 
 - If there are other errors its probably a variable edge case i didnt account for or a newer version of minecraft with different formatting
 
