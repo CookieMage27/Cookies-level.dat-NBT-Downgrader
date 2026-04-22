@@ -1,7 +1,6 @@
 import nbtlib
 from nbtlib import *
 from nbtlib.tag import *
-# from options import *
 from item_list import all_item_list
 import argparse
 import pathlib
@@ -790,12 +789,13 @@ if not outputFolder.exists():
     print("output folder not found... creating one")
     outputFolder.mkdir()
 
-
+# tries to save to the output folder, prints a help message if unsuccessfull
 try:
-
     nbt_file.save("output/level.dat", gzipped=True)
     print("Saved in output!")
-except:
+except FileNotFoundError:
+    nbt_file.save("nbtconverterV2/output/level.dat", gzipped=True)
+except Exception:
     print("Error saving file.... check output folder permissions and try again\n")
     if platform.system() == "Linux" or platform.system() == "Darwin":
         print("On Linux/MacOS systems, try 'chmod 777 output' while in the nbtconverterv2 directory")
