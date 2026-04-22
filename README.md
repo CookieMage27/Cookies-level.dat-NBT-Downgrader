@@ -46,10 +46,14 @@ b1.7.3
 ## NOTE!!
 
 this tool is **EXTREMELY** janky, it may be prone to curly errors and is still in active development. Both us devs barely know what each others code does, so a fair warning:
+
 This tool is not guaranteed to work, ensure you backup your world before trying this, and if it doesn't work, open up a GitHub issue and we'll try our best to help.
+
 In the future, we might package this into indivdual executables, but no promises.
+
 Thanks for using our project 😎❤️.
-Also, this project is proudly vibecode-free, however Claude sonnet 3.6 was used for some documentation reference.
+
+Also, this project is proudly vibecode-free, however Claude sonnet 4.6 was used for some documentation reference.
 
 ## Instructions
 
