@@ -1,19 +1,34 @@
 import nbtlib
 from nbtlib import *
 from nbtlib.tag import *
-from options import *
+# from options import *
 from item_list import all_item_list
+import argparse
+import pathlib
+import platform
+
+
+#brings in args from being executed by tui.py
+argParser = argparse.ArgumentParser(description="Brings arguments from tui.py")
+argParser.add_argument("leveldatPath", type = str)
+argParser.add_argument("--versionChoice", type = str)
+parsedArgs = argParser.parse_args()
+
+leveldatPath = parsedArgs.leveldatPath
+versionChoice = parsedArgs.versionChoice
+
+
 
 try:
-    new_level_dat = nbtlib.load("nbtconverterV2/input/level.dat")
+    new_level_dat = nbtlib.load(leveldatPath)
 except:
-    new_level_dat = nbtlib.load("input/level.dat")
+    raise Exception("unable to load file. check the path and that it's a real level.dat file")
 
 
 
 
 
-if (set_to_12w49a == True):
+if versionChoice == "1":
     option = "12w49a"
 else:
     option = "Beta 1.7.3"
@@ -768,10 +783,27 @@ root = Compound({
 })
 
 nbt_file = File(root)
+
+#checks if output folder exists, makes one if it doesn't
+outputFolder = pathlib.Path("output")
+if not outputFolder.exists():
+    print("output folder not found... creating one")
+    outputFolder.mkdir()
+
+
 try:
-    nbt_file.save("nbtconverterV2/output/level.dat", gzipped=True)
-except:
+
     nbt_file.save("output/level.dat", gzipped=True)
+    print("Saved in output!")
+except:
+    print("Error saving file.... check output folder permissions and try again\n")
+    if platform.system() == "Linux" or platform.system() == "Darwin":
+        print("On Linux/MacOS systems, try 'chmod 777 output' while in the nbtconverterv2 directory")
+    elif platform.system() == "Windows":
+        print("On Windows systems, right-click on the output folder, then ")
+    else:
+        print("On Windows systems, right-click on the output folder, then ")
+        print("On Linux/MacOS systems, try 'chmod 777 output' while in the nbtconverterv2 directory")
 
 
 
