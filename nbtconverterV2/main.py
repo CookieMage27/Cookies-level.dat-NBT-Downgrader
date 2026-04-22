@@ -21,8 +21,8 @@ versionChoice = parsedArgs.versionChoice
 try:
     new_level_dat = nbtlib.load(leveldatPath)
 except:
-    raise Exception("unable to load file. check the path and that it's a real level.dat file")
-
+    print("unable to load file. check the path and that it's a real level.dat file")
+    exit()
 
 
 
