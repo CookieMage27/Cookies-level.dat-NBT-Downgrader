@@ -43,10 +43,8 @@ def validateInput(dataInput):
 	filePath = dataInput[0]
 	pathCheck = pathlib.Path(filePath)
 	if pathCheck.is_file():
-		print("is file")
 		try:
 			nbtlib.load(filePath)
-			print("loaded")
 			validated[0] = True
 		except:
 			validated[0] = False
