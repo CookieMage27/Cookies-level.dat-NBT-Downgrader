@@ -12,14 +12,12 @@ except:
 
 
 
+
 if (set_to_12w49a == True):
     option = "12w49a"
 else:
     option = "Beta 1.7.3"
 
-
-if (item_namespace == False):
-    enchant_namespace = False
 
 
 Beta173 = schema("Beta 1.7.3", {
@@ -179,15 +177,15 @@ health = int(new_level_dat['Data']['Player']['Health'])
 score = int(new_level_dat['Data']['Player']['Score'])
 
 
-if(enchant_namespace):
+try:
+    dimension = int(new_level_dat['Data']['Player']['Dimension'])
+except:
     if(new_level_dat['Data']['Player']['Dimension'] == "minecraft:overworld"):
         dimension = 0
     if(new_level_dat['Data']['Player']['Dimension'] == "minecraft:nether"):
         dimension = -1
     if(new_level_dat['Data']['Player']['Dimension'] == "minecraft:the_end"):
         dimension = 1
-else:
-    dimension = int(new_level_dat['Data']['Player']['Dimension'])
 
 
 try:
@@ -318,167 +316,225 @@ all_enchants_list = {
 }
 
 
+
+
+def itemEnchantmentParser(storage, item, tag, container, is_book, ender, repair='RepairCost'):
+    #print(item)
+    enchantment_list = []
+    if (new_level_dat['Data']['Player'][f'{storage}'][item][f'{tag}'].get('Damage') != None and new_level_dat['Data']['Player'][f'{storage}'][item][f'{tag}'].get(f'{container}') == None): 
+        damage = int(new_level_dat['Data']['Player'][f'{storage}'][item][f'{tag}']['Damage'])
+        converted_items.append({
+            "Count": count,
+            "Slot": slot,
+            "Damage": damage,
+            "id": found_item,
+        })
+        print("damage Thingy")
+        return
+        
+    for enchant in range(len(new_level_dat['Data']['Player'][f'{storage}'][item][f'{tag}'][f'{container}'])):
+        
+        try:
+            enchantment_lvl = int(new_level_dat['Data']['Player'][f'{storage}'][item][f'{tag}'][f'{container}'][enchant].get('lvl'))
+            enchantment_id  = int(new_level_dat['Data']['Player'][f'{storage}'][item][f'{tag}'][f'{container}'][enchant].get('id'))
+            print(enchantment_id, enchantment_lvl)
+            enchantment_list.append({
+                "lvl": enchantment_lvl,
+                "id": enchantment_id,
+            })
+        except:
+            for key, value in all_enchants_list.items():
+                try:
+                    if new_level_dat['Data']['Player'][f'{storage}'][item][f'{tag}'][f'{container}'][enchant]['id'] == key:
+                        enchantment_id = value
+                        enchantment_lvl = int(new_level_dat['Data']['Player'][f'{storage}'][item][f'{tag}'][f'{container}'][enchant]['lvl'])
+                        enchantment_list.append({
+                            "lvl": enchantment_lvl,
+                            "id": enchantment_id,
+                        })
+                        break
+                except:
+                    
+                    try:
+                        if list(new_level_dat['Data']['Player'][f'{storage}'][item][f'{tag}'][f'{container}'].keys())[enchant] == key:
+                            #print("got in")
+                            enchantment_id = value
+                            #print(enchantment_id," id")
+                            enchantment_lvl = int(new_level_dat['Data']['Player'][f'{storage}'][item][f'{tag}'][f'{container}'][f'{key}'])
+                            #print(enchantment_lvl," lvl")
+                            enchantment_list.append({
+                                "lvl": enchantment_lvl,
+                                "id": enchantment_id,
+                            })
+                            #print(enchantment_list)
+                    except:
+                        pass
+    try:
+        damage = int(new_level_dat['Data']['Player'][f'{storage}'][item][f'{tag}']['Damage'])
+    except:
+        try:
+            damage = int(new_level_dat['Data']['Player'][f'{storage}'][item]['Damage'])
+        except:
+            try:
+                damage = int(new_level_dat['Data']['Player'][f'{storage}'][item][f'{tag}']['minecraft:damage'])
+            except:
+                damage = 0
+    if(ender):
+        if(is_book == True):
+        
+            ec_converted_items.append({
+                "Count": count,
+                "Slot": slot,
+                "Damage": damage,
+                "id": found_item,
+                "tag": {
+                    "StoredEnchantments": enchantment_list
+                    #[{"lvl": enchantment_lvl,"id": enchantment_id,}]
+                }
+            })
+        else:
+            
+            repaircost = int(new_level_dat['Data']['Player'][f'{storage}'][item][f'{tag}'][f'{repair}'])
+            ec_converted_items.append({
+                "Count": count,
+                "Slot": slot,
+                "Damage": damage,
+                "id": found_item,
+                "tag": {
+                    "ench": enchantment_list,
+                    #[{"lvl": enchantment_lvl,"id": enchantment_id,}]
+                    "RepairCost": repaircost,
+                }
+            })
+    else:
+        if(is_book == True):
+            
+            converted_items.append({
+                "Count": count,
+                "Slot": slot,
+                "Damage": damage,
+                "id": found_item,
+                "tag": {
+                    "StoredEnchantments": enchantment_list
+                    #[{"lvl": enchantment_lvl,"id": enchantment_id,}]
+                }
+            })
+        else:
+            
+            repaircost = int(new_level_dat['Data']['Player'][f'{storage}'][item][f'{tag}'][f'{repair}'])
+            converted_items.append({
+                "Count": count,
+                "Slot": slot,
+                "Damage": damage,
+                "id": found_item,
+                "tag": {
+                    "ench": enchantment_list,
+                    #[{"lvl": enchantment_lvl,"id": enchantment_id,}]
+                    "RepairCost": repaircost,
+                }
+            })
+
+
+
+#############
+#ENDER CHEST#
+#############
+
 ec_converted_items = []
 ec_enchantment_list = []
 
 for ec_item in range(len(new_level_dat['Data']['Player']['EnderItems'])):
-    ec_slot = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['Slot'])
+    slot = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['Slot'])
     ec_enchantment_list = []
-    ec_found_item = 0
-    ec_damage = 0
-    if(item_namespace):
-        for key, value in all_item_list.items():
-            #print(key)
-            #print(value)
-            if new_level_dat['Data']['Player']['EnderItems'][ec_item]['id'] == key:
-                ec_found_item = value
-                break
-            else:
-                ec_found_item = 0
-    else:
-        ec_found_item = new_level_dat['Data']['Player']['EnderItems'][ec_item]['id']
+    found_item = 0
+    
 
     try:
-        ec_count = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['Count'])
-    except KeyError:
-        ec_count = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['count'])
+        if type(str(new_level_dat['Data']['Player']['EnderItems'][ec_item].get('int'))) == str:
+        
+            for key, value in all_item_list.items():
+                #print(key)
+                #print(value)
+                if new_level_dat['Data']['Player']['EnderItems'][ec_item]['id'] == key:
+                    found_item = value
+                    break
+                else:
+                    found_item = 0
+    except:
+        try:
+            if type(int(new_level_dat['Data']['Player']['EnderItems'][ec_item].get('int'))) == int:
+                found_item = new_level_dat['Data']['Player']['EnderItems'][ec_item]['id']
+        except:
+            found_item = 0
+
+    try:
+        count = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['Count'])
+    except:
+        count = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['count'])
     
     try:
-        ec_damage = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['Damage'])
-    except KeyError:
+        damage = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['Damage'])
+    except:
         try:
-            ec_damage = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['components']['minecraft:damage'])
-        except KeyError:
-            pass
+            damage = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['tag']['Damage'])
+        except:
+            try:
+                damage = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['components']['minecraft:damage'])
+            except:
+                damage = 0
     
         
 
     
     if(option == "12w49a"):
-        if ('components' in list(new_level_dat['Data']['Player']['EnderItems'][ec_item].keys()) or 'tag' in list(new_level_dat['Data']['Player']['EnderItems'][ec_item].keys())):
-
-
-            if(enchant_namespace):
-                ##its dificult to do it with items with enchanted namespaces ill add later
-                if(ec_found_item == 403):
-                    for ec_enchant in range(len(new_level_dat['Data']['Player']['EnderItems'][ec_item]['components']['minecraft:stored_enchantments'])):
-                        for key, value in all_enchants_list.items():
-                            if list(new_level_dat['Data']['Player']['EnderItems'][ec_item]['components']['minecraft:stored_enchantments'].keys())[ec_enchant] == key:
-                                ec_enchantment_lvl = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['components']['minecraft:stored_enchantments'][f'{key}'])
-                                ec_enchantment_id = value
-                                ec_enchantment_list.append({
-                                    "lvl": ec_enchantment_lvl,
-                                    "id": ec_enchantment_id,
-                                })
-                                break
-                    #this is the item data for an enchanted book thats converted from a namespace
-                    ec_converted_items.append({
-                        "Count": ec_count,
-                        "Slot": ec_slot,
-                        "Damage": ec_damage,
-                        "id": ec_found_item,
-                        "tag": {
-                            "StoredEnchantments": ec_enchantment_list
-                            #[{"lvl": enchantment_lvl,"id": enchantment_id,}]
-                        }
-                    })
-                if(ec_found_item != 403):
-                    for ec_enchant in range(len(new_level_dat['Data']['Player']['EnderItems'][ec_item]['components']['minecraft:enchantments'])):
-                        print("worked")
-                        for key, value in all_enchants_list.items():
-                            if list(new_level_dat['Data']['Player']['EnderItems'][ec_item]['components']['minecraft:enchantments'].keys())[ec_enchant] == key:
-                                ec_enchantment_lvl = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['components']['minecraft:enchantments'][f'{key}'])
-                                ec_enchantment_id = value
-                                ec_enchantment_list.append({
-                                    "lvl": ec_enchantment_lvl,
-                                    "id": ec_enchantment_id,
-                                })
-                                break
-                    ec_repaircost = new_level_dat['Data']['Player']['EnderItems'][ec_item]['components']['minecraft:repair_cost']
-                    ec_converted_items.append({
-                        "Count": ec_count,
-                        "Slot": ec_slot,
-                        "Damage": ec_damage,
-                        "id": ec_found_item,
-                        "tag": {
-                            "ench": ec_enchantment_list,
-                            #[{"lvl": enchantment_lvl,"id": enchantment_id,}]
-                            "RepairCost": ec_repaircost,
-                        }
-                    })     
-            else: 
-                #if the converted version doesnt have enchantment namespaces
-                if(ec_found_item == 403):
-                    for ec_enchant in range(len(new_level_dat['Data']['Player']['EnderItems'][ec_item]['tag']['StoredEnchantments'])):
-                        
-                        ec_enchantment_lvl = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['tag']['StoredEnchantments'][ec_enchant]['lvl'])
-                        ec_enchantment_id = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['tag']['StoredEnchantments'][ec_enchant]['id'])
-                        ec_enchantment_list.append({
-                            "lvl": ec_enchantment_lvl,
-                            "id": ec_enchantment_id,
-                        })
-                    #this is the item data for an enchanted book with the old id system
-                    ec_converted_items.append({
-                        "Count": ec_count,
-                        "Slot": ec_slot,
-                        "Damage": ec_damage,
-                        "id": ec_found_item,
-                        "tag": {
-                            "StoredEnchantments": ec_enchantment_list
-                            #[{"lvl": enchantment_lvl,"id": enchantment_id,}]
-                        }
-                    })
-                if(ec_found_item != 403):
-                    for ec_enchant in range(len(new_level_dat['Data']['Player']['EnderItems'][ec_item]['tag']['ench'])):
-
-                        ec_enchantment_lvl = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['tag']['ench'][ec_enchant]['lvl'])
-                        ec_enchantment_id = int(new_level_dat['Data']['Player']['EnderItems'][ec_item]['tag']['ench'][ec_enchant]['id'])
-                        ec_enchantment_list.append({
-                            "lvl": ec_enchantment_lvl,
-                            "id": ec_enchantment_id,
-                        })
-                    ec_repaircost = new_level_dat['Data']['Player']['EnderItems'][ec_item]['tag']['RepairCost']
-                    
-                    #this is the item data for a random enchanted item with the old id system
-                    ec_converted_items.append({
-                        "Count": ec_count,
-                        "Slot": ec_slot,
-                        "Damage": ec_damage,
-                        "id": ec_found_item,
-                        "tag": {
-                            "ench": ec_enchantment_list,
-                            #[{"lvl": enchantment_lvl,"id": enchantment_id,}]
-                            "RepairCost": ec_repaircost,
-                        }
-                    }) 
+        if ('components' in list(new_level_dat['Data']['Player']['EnderItems'][ec_item].keys())): 
+            
+                
+            
+            if(found_item == 403):
+                print(ec_item)
+                itemEnchantmentParser('EnderItems', ec_item, 'components', 'minecraft:stored_enchantments', True, True)
+                
+            if(found_item != 403):
+                itemEnchantmentParser('EnderItems', ec_item, 'components', 'minecraft:enchantments', False, True, 'minecraft:repair_cost')
+                
+        
+        elif('tag' in list(new_level_dat['Data']['Player']['EnderItems'][ec_item].keys())):
+        
+            if(found_item == 403):
+                itemEnchantmentParser('EnderItems', ec_item, 'tag', 'StoredEnchantments', True, True)
+                
+            if(found_item != 403):
+                try:
+                    itemEnchantmentParser('EnderItems', ec_item, 'tag', 'Enchantments', False, True)
+                except:
+                    itemEnchantmentParser('EnderItems', ec_item, 'tag', 'ench', False, True)
+            
         else:
             #if tag doesnt exist
             ec_converted_items.append({
-                "Count": ec_count,
-                "Slot": ec_slot,
-                "Damage": ec_damage,
-                "id": ec_found_item,
+                "Count": count,
+                "Slot": slot,
+                "Damage": damage,
+                "id": found_item,
             })
     
     else:
         #if isnt 12w49a(same as tag not existing)
         ec_converted_items.append({
-            "Count": ec_count,
-            "Slot": ec_slot,
-            "Damage": ec_damage,
-            "id": ec_found_item,
+            "Count": count,
+            "Slot": slot,
+            "Damage": damage,
+            "id": found_item,
         })
 
 
 
 
 
-
-
-
-
-
-
+###########
+#INVENTORY#
+###########
 
 converted_items = []
 enchantment_list = []
@@ -487,132 +543,66 @@ for item in range(len(new_level_dat['Data']['Player']['Inventory'])):
     slot = int(new_level_dat['Data']['Player']['Inventory'][item]['Slot'])
     enchantment_list = []
     found_item = 0
-    damage = 0
-    if(item_namespace):
-        for key, value in all_item_list.items():
-            #print(key)
-            #print(value)
-            if new_level_dat['Data']['Player']['Inventory'][item]['id'] == key:
-                found_item = value
-                break
-            else:
-                found_item = 0
-    else:
-        found_item = new_level_dat['Data']['Player']['Inventory'][item]['id']
+    
+    try:
+        if type(str(new_level_dat['Data']['Player']['Inventory'][item].get('int'))) == str:
+        
+            for key, value in all_item_list.items():
+                #print(key)
+                #print(value)
+                if new_level_dat['Data']['Player']['Inventory'][item]['id'] == key:
+                    found_item = value
+                    break
+                else:
+                    found_item = 0
+    except:
+        try:
+            if type(int(new_level_dat['Data']['Player']['Inventory'][item].get('int'))) == int:
+                found_item = new_level_dat['Data']['Player']['Inventory'][item]['id']
+        except:
+            found_item = 0
 
     try:
         count = int(new_level_dat['Data']['Player']['Inventory'][item]['Count'])
-    except KeyError:
+    except:
         count = int(new_level_dat['Data']['Player']['Inventory'][item]['count'])
     
     try:
         damage = int(new_level_dat['Data']['Player']['Inventory'][item]['Damage'])
-    except KeyError:
+    except:
         try:
-            damage = int(new_level_dat['Data']['Player']['Inventory'][item]['components']['minecraft:damage'])
-        except KeyError:
-            pass
+            damage = int(new_level_dat['Data']['Player']['Inventory'][item]['tag']['Damage'])
+        except:
+            try:
+                damage = int(new_level_dat['Data']['Player']['Inventory'][item]['components']['minecraft:damage'])
+            except:
+                damage = 0
     
         
 
     
     if(option == "12w49a"):
-        if ('components' in list(new_level_dat['Data']['Player']['Inventory'][item].keys()) or 'tag' in list(new_level_dat['Data']['Player']['Inventory'][item].keys())):
+        if ('components' in list(new_level_dat['Data']['Player']['Inventory'][item].keys())): 
+        
+            if(found_item == 403):
+                itemEnchantmentParser('Inventory', item, 'components', 'minecraft:stored_enchantments', True, False)
+                
+            if(found_item != 403):
+                itemEnchantmentParser('Inventory', item, 'components', 'minecraft:enchantments', False, False, 'minecraft:repair_cost')
+                
+                
+        elif('tag' in list(new_level_dat['Data']['Player']['Inventory'][item].keys())):
 
+            if(found_item == 403):
+                itemEnchantmentParser('Inventory', item, 'tag', 'StoredEnchantments', True, False)
+                
+            if(found_item != 403):
+                try:
+                    itemEnchantmentParser('Inventory', item, 'tag', 'Enchantments', False, False)
+                except:
+                    itemEnchantmentParser('Inventory', item, 'tag', 'ench', False, False)
+                
 
-            if(enchant_namespace):
-                ##its dificult to do it with items with enchanted namespaces ill add later
-                if(found_item == 403):
-                    for enchant in range(len(new_level_dat['Data']['Player']['Inventory'][item]['components']['minecraft:stored_enchantments'])):
-                        for key, value in all_enchants_list.items():
-                            if list(new_level_dat['Data']['Player']['Inventory'][item]['components']['minecraft:stored_enchantments'].keys())[enchant] == key:
-                                enchantment_lvl = int(new_level_dat['Data']['Player']['Inventory'][item]['components']['minecraft:stored_enchantments'][f'{key}'])
-                                enchantment_id = value
-                                enchantment_list.append({
-                                    "lvl": enchantment_lvl,
-                                    "id": enchantment_id,
-                                })
-                                break
-                    #this is the item data for an enchanted book thats converted from a namespace
-                    converted_items.append({
-                        "Count": count,
-                        "Slot": slot,
-                        "Damage": damage,
-                        "id": found_item,
-                        "tag": {
-                            "StoredEnchantments": enchantment_list
-                            #[{"lvl": enchantment_lvl,"id": enchantment_id,}]
-                        }
-                    })
-                if(found_item != 403):
-                    for enchant in range(len(new_level_dat['Data']['Player']['Inventory'][item]['components']['minecraft:enchantments'])):
-                        print("worked")
-                        for key, value in all_enchants_list.items():
-                            if list(new_level_dat['Data']['Player']['Inventory'][item]['components']['minecraft:enchantments'].keys())[enchant] == key:
-                                enchantment_lvl = int(new_level_dat['Data']['Player']['Inventory'][item]['components']['minecraft:enchantments'][f'{key}'])
-                                enchantment_id = value
-                                enchantment_list.append({
-                                    "lvl": enchantment_lvl,
-                                    "id": enchantment_id,
-                                })
-                                break
-                    repaircost = new_level_dat['Data']['Player']['Inventory'][item]['components']['minecraft:repair_cost']
-                    converted_items.append({
-                        "Count": count,
-                        "Slot": slot,
-                        "Damage": damage,
-                        "id": found_item,
-                        "tag": {
-                            "ench": enchantment_list,
-                            #[{"lvl": enchantment_lvl,"id": enchantment_id,}]
-                            "RepairCost": repaircost,
-                        }
-                    })     
-            else: 
-                #if the converted version doesnt have enchantment namespaces
-                if(found_item == 403):
-                    for enchant in range(len(new_level_dat['Data']['Player']['Inventory'][item]['tag']['StoredEnchantments'])):
-                        
-                        enchantment_lvl = int(new_level_dat['Data']['Player']['Inventory'][item]['tag']['StoredEnchantments'][enchant]['lvl'])
-                        enchantment_id = int(new_level_dat['Data']['Player']['Inventory'][item]['tag']['StoredEnchantments'][enchant]['id'])
-                        enchantment_list.append({
-                            "lvl": enchantment_lvl,
-                            "id": enchantment_id,
-                        })
-                    #this is the item data for an enchanted book with the old id system
-                    converted_items.append({
-                        "Count": count,
-                        "Slot": slot,
-                        "Damage": damage,
-                        "id": found_item,
-                        "tag": {
-                            "StoredEnchantments": enchantment_list
-                            #[{"lvl": enchantment_lvl,"id": enchantment_id,}]
-                        }
-                    })
-                if(found_item != 403):
-                    for enchant in range(len(new_level_dat['Data']['Player']['Inventory'][item]['tag']['ench'])):
-
-                        enchantment_lvl = int(new_level_dat['Data']['Player']['Inventory'][item]['tag']['ench'][enchant]['lvl'])
-                        enchantment_id = int(new_level_dat['Data']['Player']['Inventory'][item]['tag']['ench'][enchant]['id'])
-                        enchantment_list.append({
-                            "lvl": enchantment_lvl,
-                            "id": enchantment_id,
-                        })
-                    repaircost = new_level_dat['Data']['Player']['Inventory'][item]['tag']['RepairCost']
-                    
-                    #this is the item data for a random enchanted item with the old id system
-                    converted_items.append({
-                        "Count": count,
-                        "Slot": slot,
-                        "Damage": damage,
-                        "id": found_item,
-                        "tag": {
-                            "ench": enchantment_list,
-                            #[{"lvl": enchantment_lvl,"id": enchantment_id,}]
-                            "RepairCost": repaircost,
-                        }
-                    }) 
         else:
             #if tag doesnt exist
             converted_items.append({
