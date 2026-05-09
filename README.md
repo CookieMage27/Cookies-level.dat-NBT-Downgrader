@@ -61,19 +61,29 @@ Open the main folder in your file manager
 
 1. Run `pip install -r requirements.txt` (the libraries for this project)
 
-3. Make a backup of your world in case something goes... wrong
+2. Make a backup of your world in case something goes... wrong
 
-4. Delete the level.dat_old
+3. Delete the level.dat_old
 
-5. Right click on level.dat while holding shift (option on Mac), choose "copy as path"
+4. Drag the level.dat into input folder
 
-6. Open a terminal/powershell in the "nbtconverterv2" folder
+5. select the version you want to convert too in options.py (by default, it will be beta 1.7.3)
 
-7. set up a venv if needed (see below)
+6. Run main.py
 
-8. run `python3 tui.py [level.dat path]` (paste the path you copied in earlier)
+7. take level.dat out of output folder and back into your minecraft folder
 
-9. Drag the outputed level.dat out into your world, confirm 'yes' to overwrite if asked
+### OR, if you want to try using the terminal
+
+4. Right click on level.dat while holding shift (option on Mac), choose "copy as path"
+
+5. Open a terminal/powershell in the "nbtconverterv2" folder
+
+6. set up a venv if needed (see below)
+
+7. run `python3 tui.py [level.dat path]` (paste the path you copied in earlier)
+
+8. Drag the outputed level.dat out into your world, confirm 'yes' to overwrite if asked
 
 Play in the version you selected, Minecraft should open the world without saying anything about conversion
 
