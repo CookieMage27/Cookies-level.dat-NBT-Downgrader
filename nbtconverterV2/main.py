@@ -325,7 +325,6 @@ all_enchants_list = {
     "minecraft:projectile_protection": 4,
     "minecraft:respiration": 5,
     "minecraft:aqua_affinity": 6,
-    "minecraft:thorns": 7,
     "minecraft:sharpness": 16,
     "minecraft:smite": 17,
     "minecraft:bane_of_arthropods": 18,
